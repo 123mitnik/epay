@@ -122,7 +122,6 @@ class Epay
 
             $statuses = [
                 'PAID'   => 'OK',
-                'DENIED' => 'ERR',
             ];
 
             foreach ($lines as $line) {
