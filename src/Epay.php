@@ -127,7 +127,15 @@ class Epay
 
             foreach ($lines as $line) {
                 if (preg_match("/^INVOICE=(\d+):STATUS=(PAID|DENIED|EXPIRED)(:PAY_TIME=(\d+):STAN=(\d+):BCODE=([0-9a-zA-Z]+))?$/", $line, $regs)) {
-
+                    
+                    if ($regs[2] !== 'PAID'){
+                     $item = [
+                        'invoice'  => $regs[1],
+                        'status'   => $regs[2],
+                        'stan'     => '',
+                        'bcode'    => '',                         
+                    ];       
+                    }else{
                     $item = [
                         'invoice'  => $regs[1],
                         'status'   => $regs[2],
@@ -135,7 +143,7 @@ class Epay
                         'stan'     => $regs[5],
                         'bcode'    => $regs[6],
                     ];
-
+                    }
                     $result['items'][] = $item;
                     // No if expired or other
                     $status = array_get($statuses, $item['status'], 'NO');
